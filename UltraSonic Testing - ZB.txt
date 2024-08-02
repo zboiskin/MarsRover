@@ -1,0 +1,42 @@
+//Define the pin for ultrasonic
+#define ULTRASONIC_PIN 10
+
+//defining the serial monitor communication to read the inputs from the sensor
+void setup() {
+	Serial.begin(9600);
+}
+
+//First, we set the ultrasonic pin as an output pin that will send a 10 microsecond pulse to start
+//give some timing room
+void loop() {
+
+delay(4);
+
+//Set to OUTPUT to send signal
+pinMode(ULTRASONIC_PIN, OUTPUT);
+
+//Clear the trigger pin to display new information as a each new signal is sent out
+digitalWrite(ULTRASONIC_PIN, LOW);
+delayMicroseconds(2);
+
+//The actual sending of the signal
+digitalWrite(ULTRASONIC_PIN, HIGH);
+delayMicroseconds(10);
+
+//Set the trigger back to low after is sends out our intended amound of signal
+digitalWrite(ULTRASONIC_PIN, LOW);
+
+//Our wait and listen stage - once we send out the signal, we want to receive the echo inputs
+pinMode(ULTRASONIC_PIN, INPUT);
+float duration = pulseIn(ULTRASONIC_PIN, HIGH); //this is the start of the stop time keeping it takes for the echo to return, later used to measure distance
+
+float distance = duration*0.034/2; //once we have the time it takes for the sound to return, use the calculation to determine the distance
+
+//Print and show us our findings
+Serial.print("The distance is: ");
+Serial.print(distance);
+Serial.println(" cm";
+
+//Rest and reset
+delay(200);
+}
